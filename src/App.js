@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import axios from 'axios';
+import UserInputForm from './components/UserInputForm';
+import RecommendationList from './components/RecommendationList';
 
-function App() {
+const App = () => {
+  const [recommendations, setRecommendations] = useState([]);
+
+  // Use the environment variable for the backend URL
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
+
+  const handleUserInput = async (inputData) => {
+    try {
+      // Send the user input to the backend using the environment variable
+      const response = await axios.post(`${backendUrl}/api/recommend`, { user_data: inputData });
+      
+      // Set recommendations from the backend response
+      setRecommendations([response.data.recommendation]);
+    } catch (error) {
+      console.error('Error fetching recommendations:', error);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Personalized Recommendation System</h1>
+      <UserInputForm onSubmit={handleUserInput} />
+      {recommendations.length > 0 && <RecommendationList recommendations={recommendations} />}
     </div>
   );
-}
+};
 
 export default App;
