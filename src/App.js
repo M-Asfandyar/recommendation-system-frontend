@@ -6,16 +6,16 @@ import RecommendationList from './components/RecommendationList';
 const App = () => {
   const [recommendations, setRecommendations] = useState([]);
 
-  // Use the environment variable for the backend URL
+  // Used the backend URL from environment variables
   const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
 
-  const handleUserInput = async (inputData) => {
+  const handleUserInput = async (userId) => {
     try {
-      // Send the user input to the backend using the environment variable
-      const response = await axios.post(`${backendUrl}/api/recommend`, { user_data: inputData });
-      
+      // Send the user ID to the backend
+      const response = await axios.post(`${backendUrl}/api/recommend`, { user_id: userId });
+
       // Set recommendations from the backend response
-      setRecommendations([response.data.recommendation]);
+      setRecommendations(response.data.recommendations);
     } catch (error) {
       console.error('Error fetching recommendations:', error);
     }

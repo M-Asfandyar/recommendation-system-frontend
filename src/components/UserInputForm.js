@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 
 const UserInputForm = ({ onSubmit }) => {
-  const [userInput, setUserInput] = useState('');
+  const [userId, setUserId] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(userInput);  // Pass the input data to the parent component
+    onSubmit(userId);  // Pass the user ID to the parent component
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label>Enter Preferences:</label>
+        <label>Enter User ID:</label>
         <input
-          type="text"
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          placeholder="Enter your preferences"
+          type="number"
+          value={userId}
+          onChange={(e) => setUserId(e.target.value)}
+          placeholder="Enter your user ID"
         />
       </div>
       <button type="submit">Get Recommendation</button>
